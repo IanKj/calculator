@@ -15,9 +15,7 @@
 
 .display {
 
-    /*change this so that it is different shade of the background*/
-    background-color: rgba(00, 50, 65, 22);
-    
+    background-color: #374358;
     grid-area: display;
     display: flex;
     justify-content: flex-end;
