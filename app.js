@@ -6,86 +6,132 @@ const subtraction = document.querySelector('#subtract');
 const division = document.querySelector('#divide');
 const multiplication = document.querySelector('#multiply');
 const equals = document.querySelector('#equals');
+const display = document.querySelector('.display p');
+const answer = document.querySelector('.display h3');
+const clear = document.querySelector('#clear')
 
-let operator = '';
+
 let selectedNumber;
 let operationRunning = false;
-let adding = false;
-let subtracting = false;
-let dividing = false;
-let multiplying = false;
-
-let nums2Calc = []
+let num1 = '';
+let num2 = '';
+let operand = '';
+let calculation = '';
 
 let calculations = [
     {
         name: 'add',
         operating: false,
-        calc: add
+        calc: add,
+        operator: '+'
     },
     {
         name: 'subtract',
         operating: false,
-        calc: subtract
+        calc: subtract,
+        operator: '-'
     },
     {
         name: 'multiply',
         operating: false,
-        calc: multiply
+        calc: multiply,
+        operator: '*'
     },
     {
         name: 'divide',
         operating: false,
-        calc: divide
+        calc: divide,
+        operator: '/'
     }
 ];
 
+function testForOperating() {
+    let operatorActive;
+    calculations.forEach(calc => {
+        if (calc.operating === true) {
+            operatorActive = true
+        }
+    })
+    return operatorActive
+}
 numbers.forEach(number => {
     number.addEventListener('click', e => {
-        nums2Calc.push(parseInt(e.target.innerText))
-        console.log(nums2Calc);
+        if (testForOperating()) {
+            console.log('there is an operation set');
+            num2 += e.target.innerText
+            console.log(num2)
+        } else {
+            num1 += e.target.innerText;
+            console.log(num1)
+        }
+        calculation = `${num1} ${operand} ${num2}`
+        display.innerText = calculation
+
+        //nums2Calc.push(parseFloat(e.target.innerText))
     })
+
 
 })
 
 operators.forEach(operator => {
     operator.addEventListener('click', e => {
         operationRunning = true;
+        if (answer.innerText) {
+            num1 = answer.innerText
+            answer.innerText = '';
+            operand = '';
+            num2 = '';
+        }
         calculations.forEach(calc => {
             if (calc.name === e.target.id) {
                 calc.operating = true
-                // operator = e.target.id
-                // console.log(operator)
+                console.log(calc.operator)
+                operand = calc.operator;
+            } else {
+                calc.operating = false
             }
         })
-
+        calculation = `${num1} ${operand} ${num2}`
+        display.innerText = calculation
     })
 })
 
 equals.addEventListener('click', e => {
-    console.log('equals clicked')
     calculations.forEach(calc => {
         if (calc.operating === true) {
             console.log('an operator is true')
-            return calc.calc(nums2Calc)
+            console.log(calc)
+            answer.innerText = calc.calc(num1, num2)
         }
     })
-
 })
 
+clear.addEventListener('click', e => {
+    num1 = '';
+    num2 = '';
+    operand = ''
+    answer.innerText = operand
+    calculation = `${num1} ${operand} ${num2}`
+    display.innerText = calculation;
+    calculations.forEach(calc => {
+        calc.operating = false;
+    })
+})
+
+
 // basic math functions
-function add(array) {
-    return array.reduce((a, b) => a + b)
+function add(a, b) {
+    return parseFloat(a) + parseFloat(b)
 }
 
-function subtract(array) {
-    return array.reduce((a, b) => a - b)
+function subtract(a, b) {
+    return parseFloat(a) - parseFloat(b)
 }
 
-function multiply(array) {
-    return array.reduce((a, b) => a * b)
+function multiply(a, b) {
+    return parseFloat(a) * parseFloat(b)
 }
 
-function divide(array) {
-    return array.reduce((a, b) => a / b)
+function divide(a, b) {
+    return parseFloat(a) / parseFloat(b)
 }
