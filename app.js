@@ -56,7 +56,13 @@ function testForOperating() {
 }
 numbers.forEach(number => {
     number.addEventListener('click', e => {
-        if (testForOperating()) {
+        if (answer.innerText) {
+            answer.innerText = '';
+            operand = '';
+            num1 = e.target.innerText;
+            num2 = '';
+        }
+        else if (testForOperating()) {
             console.log('there is an operation set');
             num2 += e.target.innerText
             console.log(num2)
@@ -99,10 +105,9 @@ operators.forEach(operator => {
 equals.addEventListener('click', e => {
     calculations.forEach(calc => {
         if (calc.operating === true) {
-            console.log('an operator is true')
-            console.log(calc)
             answer.innerText = calc.calc(num1, num2)
         }
+        calc.operating = false;
     })
 })
 
