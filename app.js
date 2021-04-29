@@ -56,11 +56,13 @@ function testForOperating() {
 }
 numbers.forEach(number => {
     number.addEventListener('click', e => {
-        if (answer.innerText) {
+        if (!operationRunning) {
             answer.innerText = '';
             operand = '';
             num1 = e.target.innerText;
+            calculations.forEach(calc => calc.operating = false)
             num2 = '';
+            operationRunning = true;
         }
         else if (testForOperating()) {
             console.log('there is an operation set');
@@ -82,11 +84,17 @@ numbers.forEach(number => {
 operators.forEach(operator => {
     operator.addEventListener('click', e => {
         operationRunning = true;
-        if (answer.innerText) {
-            num1 = answer.innerText
-            answer.innerText = '';
-            operand = '';
-            num2 = '';
+        if (num1 && num2) {
+            calculations.forEach(calc => {
+                if (calc.operating === true) {
+                    answer.innerText = calc.calc(num1, num2)
+                    num1 = answer.innerText
+
+                    operand = '';
+                    num2 = '';
+                }
+            })
+
         }
         calculations.forEach(calc => {
             if (calc.name === e.target.id) {
@@ -103,11 +111,13 @@ operators.forEach(operator => {
 })
 
 equals.addEventListener('click', e => {
+
     calculations.forEach(calc => {
-        if (calc.operating === true) {
+        if (calc.operating === true && num2) {
             answer.innerText = calc.calc(num1, num2)
+            operationRunning = false;
         }
-        calc.operating = false;
+
     })
 })
 
