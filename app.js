@@ -10,6 +10,7 @@ const display = document.querySelector('.display p');
 const answer = document.querySelector('.display h3');
 const clear = document.querySelector('#clear');
 const decimal = document.querySelector('.decimal');
+const negate = document.querySelector('.negate');
 
 
 let selectedNumber;
@@ -57,6 +58,7 @@ function testForOperating() {
 }
 numbers.forEach(number => {
     number.addEventListener('click', e => {
+        // negateThis(parseFloat(num1) > 0)
         if (!operationRunning) {
             if (num1.includes('.') && e.target.innerText.includes('.')) {
                 return
@@ -128,6 +130,16 @@ equals.addEventListener('click', e => {
 
     })
 })
+
+// function negateThis(boolean) {
+//     if (boolean === true) {
+//         console.log('its working!')
+//     }
+// }
+// negate.addEventListener('click', () => {
+//     negateThis(parseFloat(num1) > 0)
+//     console.log(this)
+// })
 
 clear.addEventListener('click', e => {
     num1 = '';
