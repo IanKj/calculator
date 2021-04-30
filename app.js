@@ -8,7 +8,8 @@ const multiplication = document.querySelector('#multiply');
 const equals = document.querySelector('#equals');
 const display = document.querySelector('.display p');
 const answer = document.querySelector('.display h3');
-const clear = document.querySelector('#clear')
+const clear = document.querySelector('#clear');
+const decimal = document.querySelector('.decimal');
 
 
 let selectedNumber;
@@ -57,28 +58,36 @@ function testForOperating() {
 numbers.forEach(number => {
     number.addEventListener('click', e => {
         if (!operationRunning) {
-            answer.innerText = '';
-            operand = '';
-            num1 = e.target.innerText;
-            calculations.forEach(calc => calc.operating = false)
-            num2 = '';
-            operationRunning = true;
+            if (num1.includes('.') && e.target.innerText.includes('.')) {
+                return
+            } else {
+                answer.innerText = '';
+                operand = '';
+                num1 = e.target.innerText;
+                calculations.forEach(calc => calc.operating = false)
+                num2 = '';
+                operationRunning = true;
+            }
         }
         else if (testForOperating()) {
-            console.log('there is an operation set');
-            num2 += e.target.innerText
-            console.log(num2)
+
+            if (num2.includes('.') && e.target.innerText.includes('.')) {
+                return
+            } else {
+                num2 += e.target.innerText
+
+            }
         } else {
-            num1 += e.target.innerText;
-            console.log(num1)
+            if (num1.includes('.') && e.target.innerText.includes('.')) {
+                return
+            } else {
+                num1 += e.target.innerText;
+
+            }
         }
         calculation = `${num1} ${operand} ${num2}`
         display.innerText = calculation
-
-        //nums2Calc.push(parseFloat(e.target.innerText))
     })
-
-
 })
 
 operators.forEach(operator => {
@@ -99,7 +108,6 @@ operators.forEach(operator => {
         calculations.forEach(calc => {
             if (calc.name === e.target.id) {
                 calc.operating = true
-                console.log(calc.operator)
                 operand = calc.operator;
             } else {
                 calc.operating = false
