@@ -1,3 +1,9 @@
+body {
+    margin-top: 2em;
+    background-color: #dee2e6;
+    display: flex;
+    justify-content: center;
+}
 .main-container {
     background-color: #293241;
     padding: 5px;
@@ -10,16 +16,29 @@
     width: 300px;
     height: 400px; 
     border: 1px solid black;
-
+    border-radius: 5px;
 }
 
 .display {
     background-color: #374358;
+    padding-right: .1em;
     grid-area: display;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+}
+
+.display h3 {
+    font-size: 3rem;
+    margin: 0;
+    padding-left: 5px;
+}
+
+.display p {
+    font-size: 1.7em;
+    margin-block-start: .5em;
+    margin-block-end: .5em;
 }
 
 .button {
@@ -35,7 +54,6 @@
     border: 2px solid red;
 }
 
-.zero {
-    grid-column-start: 1;
-    grid-column-end: 3;
+.notNum {
+    filter: grayscale(50%)
 }
